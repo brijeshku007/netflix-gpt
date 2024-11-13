@@ -114,4 +114,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
    -- make the page multi language
    -- intigrate the gpt open ai
 # gpt 
- -- search for the movies interest   
+ -- search for the movies interest  
+ --make it through GoogleGenerativeA
+ -- make resposive as possible as i can 
