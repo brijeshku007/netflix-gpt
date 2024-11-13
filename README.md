@@ -72,10 +72,46 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # login/signup page
     --after the authentication
+    -- redirect to browse page
+    -- if you have long form use library like "formik"
+    -- form vaildation (regex )
+    -- useRef
+    -- building authentication
+    -- firebase setup
+    -- to deploy the project use tree commond (npm install -g firebase-tools)
+    1.firebse login
+    2.firebase init
+    3.firebase deploy
+    -- creating singup user account
+    -- creating login user account
+    -- creating redux store with userSlice
+    -- bugfix if user in not login do no tgive access the browse page and vice-versa
+    --unsubscribe when the componenamt unmount onauthstatechange 
+    -- add consttants in a constant file
+    -- register to tmdb api and create a app 
+    -- get api cal from nowplaying movie api
+    -- created the new slice to store the movies data
+    -- now creted the  userdefined hook 
+    --now on browse page creation
+         maincontainer
+           -- videobackground(with embaded it auto paly and automute)
+           -- videotitle
+          movielist Container
+            -- movieslist*n 
+          --card*n 
+    
+    
+    
 # browser page
    -- Header
    -- main
    -- background with movie trailer
-   -- list of movies
+   -- title and description 
+   -- movie suggesstion
+   -- list of movies*n (with vertile )
+   -- gpt seaarch page 
+   --gpt serch bar
+   -- make the page multi language
+   -- intigrate the gpt open ai
 # gpt 
  -- search for the movies interest   
