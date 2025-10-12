@@ -191,4 +191,4 @@ If you have any questions or need help with setup, please open an issue or conta
 
 ---
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by Brijesh Kumar**
