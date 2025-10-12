@@ -1,0 +1,47 @@
+const LANGUAGE_CONSTANTS = {
+  en: {
+    search: "Search",
+    gptSearchPlaceholder: "What's on your mind...",
+    noResultFound: "No results found. Please try a different search.",
+    signIn: "Sign In",
+    signUp: "Sign Up",
+    email: "Email",
+    password: "Password",
+    fullName: "Full Name",
+    logout: "Logout",
+    browse: "Browse",
+    aiSearch: "AI Search",
+    homePage: "Home Page",
+  },
+  hi: {
+    search: "खोज",
+    gptSearchPlaceholder: "आपके मन में क्या है...",
+    noResultFound: "कोई परिणाम नहीं मिला। कृपया एक अलग खोज का प्रयास करें।",
+    signIn: "साइन इन",
+    signUp: "साइन अप",
+    email: "ईमेल",
+    password: "पासवर्ड",
+    fullName: "पूरा नाम",
+    logout: "लॉग आउट",
+    browse: "ब्राउज़",
+    aiSearch: "एआई खोज",
+    homePage: "होम पेज",
+  },
+  es: {
+    search: "Buscar",
+    gptSearchPlaceholder: "¿Qué tienes en mente...?",
+    noResultFound:
+      "No se encontraron resultados. Intenta con una búsqueda diferente.",
+    signIn: "Iniciar Sesión",
+    signUp: "Registrarse",
+    email: "Correo",
+    password: "Contraseña",
+    fullName: "Nombre Completo",
+    logout: "Cerrar Sesión",
+    browse: "Explorar",
+    aiSearch: "Búsqueda IA",
+    homePage: "Página Principal",
+  },
+};
+
+export default LANGUAGE_CONSTANTS;

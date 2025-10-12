@@ -1,14 +1,14 @@
-
-import { Provider } from 'react-redux';
-import Body from './components/Body';
-import appStore from './utils/appStore';
+import { Provider } from "react-redux";
+import { Body, ErrorBoundary } from "./components/common";
+import { store } from "./store";
 
 function App() {
   return (
-    <Provider store={appStore}>
-     <Body></Body>
-    </Provider>
-    
+    <ErrorBoundary>
+      <Provider store={store}>
+        <Body />
+      </Provider>
+    </ErrorBoundary>
   );
 }
 
