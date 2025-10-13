@@ -15,10 +15,10 @@ export const generateContentWithFallback = async (prompt) => {
 
   for (const modelName of modelNames) {
     try {
-      console.log(`Trying model: ${modelName}`);
+      // console.log(`Trying model: ${modelName}`);
       const model = genAI.getGenerativeModel({ model: modelName });
       const result = await model.generateContent(prompt);
-      console.log(`✅ SUCCESS with model: ${modelName}`);
+      // console.log(`✅ SUCCESS with model: ${modelName}`);
       return result;
     } catch (error) {
       console.warn(`❌ Model ${modelName} failed:`, error.message);

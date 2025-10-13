@@ -30,11 +30,11 @@ const firebaseConfig = {
 
 // Debug: Check if environment variables are loaded
 if (process.env.NODE_ENV === "development") {
-  console.log("Firebase Config Check:", {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY ? "Set" : "Missing",
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID ? "Set" : "Missing",
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ? "Set" : "Missing",
-  });
+  // console.log("Firebase Config Check:", {
+  //   apiKey: process.env.REACT_APP_FIREBASE_API_KEY ? "Set" : "Missing",
+  //   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID ? "Set" : "Missing",
+  //   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ? "Set" : "Missing",
+  // });
 }
 
 // Initialize Firebase
