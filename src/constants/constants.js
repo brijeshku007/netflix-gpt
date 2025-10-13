@@ -1,6 +1,4 @@
 
-export const LOGO =
-  "https://assets-6.mxplay.com/static/mxoneweb/desktop/images/mx-sharekaro.png";
 export const DEFAULT_AVATAR =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYaO6lWOo30L2AqIVF76Mx8WS-8OrnlUJw7w&s";
 

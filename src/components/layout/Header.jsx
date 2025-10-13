@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { DropDown } from "../ui";
 import { auth } from "../../services";
-import { LOGO, SUPPORTED_LANGUAGES } from "../../constants";
+import { SUPPORTED_LANGUAGES } from "../../constants";
 import { HiMenu, HiX } from "react-icons/hi";
 import {
   MdHome,
