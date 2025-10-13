@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { DropDown } from "../ui";
 import { auth } from "../../services";
 import { LOGO, SUPPORTED_LANGUAGES } from "../../constants";
-import { toggleGptSearchView } from "../../store/gptSlice";
 import { HiMenu, HiX } from "react-icons/hi";
 import {
   MdHome,
@@ -17,8 +16,6 @@ import {
 
 const Header = () => {
   const user = useSelector((store) => store.user);
-  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -114,8 +111,8 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center">
           <img
-            className="h-10 w-auto md:h-12 lg:h-14 xl:h-16 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-            src={LOGO}
+            className="h-10 w-auto md:h-12 lg:h-20 xl:h-25 cursor-pointer hover:opacity-80 transition-opacity duration-200"
+            src="./streamme-logo.svg"
             alt="Netflix GPT Logo"
             onClick={() => navigate("/browse")}
           />
@@ -200,7 +197,7 @@ const Header = () => {
                           <span className="text-gray-300 text-sm">
                             User ID:
                           </span>
-                          <span className="text-white text-sm font-mono bg-gray-700 px-2 py-1 rounded text-xs">
+                          <span className="text-white text-sm font-mono bg-gray-700 px-2 py-1 rounded ">
                             {user?.uid?.substring(0, 8)}...
                           </span>
                         </div>

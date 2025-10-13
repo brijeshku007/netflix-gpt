@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { sendEmailVerification, signOut } from "firebase/auth";
 import { auth } from "../services";
@@ -9,14 +9,12 @@ import {
   MdArrowBack,
   MdMovie,
   MdSend,
-  MdCheckCircle,
   MdRefresh,
 } from "react-icons/md";
 
 const EmailVerification = () => {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
-  const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
 
   const handleResendVerification = async () => {
@@ -31,7 +29,6 @@ const EmailVerification = () => {
 
     try {
       await sendEmailVerification(user);
-      setEmailSent(true);
       setToast({
         message: "Verification email sent successfully!",
         type: "success",

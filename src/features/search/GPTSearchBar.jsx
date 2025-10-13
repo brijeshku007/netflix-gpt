@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
+import  { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { LANGUAGE_CONSTANTS } from "../../constants";
-import { openai as model, generateContentWithFallback } from "../../services";
+import { generateContentWithFallback } from "../../services";
 import { API_OPTIONS } from "../../constants";
 import { addGptMoviesResult, clearGptMoviesResult } from "../../store/gptSlice";
 import { MdSmartToy, MdMovie, MdTrendingUp } from "react-icons/md";

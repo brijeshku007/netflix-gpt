@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   updateProfile,
   updatePassword,
-  updateEmail,
+  
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
@@ -51,7 +51,6 @@ const Profile = () => {
     try {
       const currentUser = auth.currentUser;
       const newName = nameRef.current.value;
-      const newEmail = emailRef.current.value;
 
       // Update display name
       if (newName !== user.displayName) {

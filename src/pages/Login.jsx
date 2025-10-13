@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,7 +9,6 @@ import {
 } from "firebase/auth";
 import { checkValidate } from "../utils/validates";
 import { auth } from "../services";
-import { addUser } from "../store/userSlice";
 import { DEFAULT_AVATAR } from "../constants";
 import { Toast } from "../components/ui";
 import {
@@ -29,7 +27,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState(null);
   const [emailSent, setEmailSent] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const toggleSignIn = () => {
