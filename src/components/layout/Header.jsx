@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
-import { DropDown } from "../ui";
+import { DropDown, StreamMeLogo } from "../ui";
 import { auth } from "../../services";
 import { SUPPORTED_LANGUAGES } from "../../constants";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -107,13 +107,14 @@ const Header = () => {
   return (
     <div className="relative z-20">
       {/* Main Header */}
-      <div className="flex items-center justify-between bg-gray-950 text-white px-4 py-4 md:px-8 md:py-6 lg:px-12 lg:py-8">
+      <div className="flex items-center justify-between bg-gray-950 text-white px-4 py-3 md:px-8 md:py-4 lg:px-12 lg:py-5 xl:py-4">
         {/* Logo */}
         <div className="flex items-center">
-          <img
-            className="h-10 w-auto md:h-12 lg:h-20 xl:h-25 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-            src="./streamme-logo.svg"
-            alt="Netflix GPT Logo"
+          <StreamMeLogo
+            width={200}
+            height={60}
+            animated={true}
+            className="h-8 w-auto md:h-10 lg:h-12 xl:h-14"
             onClick={() => navigate("/browse")}
           />
         </div>
@@ -125,7 +126,7 @@ const Header = () => {
 
             <button
               onClick={() => navigate("/watchlist")}
-              className="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-base lg:text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200"
+              className="px-3 py-2 md:px-4 md:py-2 lg:px-5 lg:py-2 xl:px-4 xl:py-2 text-sm md:text-base lg:text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200"
               aria-label="My Watchlist"
             >
               Watchlist
@@ -133,7 +134,7 @@ const Header = () => {
 
             <button
               onClick={handleGpt}
-              className="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-base lg:text-lg font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200"
+              className="px-3 py-2 md:px-4 md:py-2 lg:px-5 lg:py-2 xl:px-4 xl:py-2 text-sm md:text-base lg:text-base font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors duration-200"
               aria-label={isOnSearchPage ? "Go to Home Page" : "Open AI Search"}
             >
               {isOnSearchPage ? "Home Page" : "AI Search"}
@@ -141,7 +142,7 @@ const Header = () => {
 
             <button
               onClick={handleLogout}
-              className="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-base lg:text-lg font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200"
+              className="px-3 py-2 md:px-4 md:py-2 lg:px-5 lg:py-2 xl:px-4 xl:py-2 text-sm md:text-base lg:text-base font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200"
               aria-label="Logout"
             >
               Logout
@@ -158,7 +159,7 @@ const Header = () => {
                 <img
                   src={user?.photoURL}
                   alt="User Avatar"
-                  className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 rounded-full border-2 border-gray-600 hover:border-white transition-colors duration-200"
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-11 lg:h-11 xl:w-10 xl:h-10 rounded-full border-2 border-gray-600 hover:border-white transition-colors duration-200"
                 />
               </button>
 
@@ -292,9 +293,9 @@ const Header = () => {
             aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
-              <HiX className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+              <HiX className="w-6 h-6 md:w-6 md:h-6" />
             ) : (
-              <HiMenu className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+              <HiMenu className="w-6 h-6 md:w-6 md:h-6" />
             )}
           </button>
         )}
@@ -303,9 +304,8 @@ const Header = () => {
       {/* Mobile Sidebar */}
       {user && (
         <div
-          className={`fixed inset-y-0 right-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out md:hidden custom-scrollbar overflow-y-auto ${
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed inset-y-0 right-0 z-50 w-64 bg-gray-900 transform transition-transform duration-300 ease-in-out md:hidden custom-scrollbar overflow-y-auto ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-700">

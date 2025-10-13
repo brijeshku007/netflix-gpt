@@ -163,8 +163,8 @@ const EmailVerification = () => {
         <motion.div className="text-center mb-8" variants={itemVariants}>
           <div className="flex items-center justify-center mb-4">
             <MdMovie className="w-12 h-12 text-red-500 mr-3" />
-            <h1 className="text-4xl font-black bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-              MovieGPT
+            <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+              StreamMe
             </h1>
           </div>
         </motion.div>

@@ -1,17 +1,17 @@
-// Custom Email Service for MovieGPT
+// Custom Email Service for StreamMe
 // This would require a backend service to send emails
 
 export const sendCustomPasswordResetEmail = async (email, resetLink) => {
   const emailTemplate = {
     to: email,
-    subject: "Reset Your MovieGPT Password 🎬",
+    subject: "Reset Your StreamMe Password 🎬",
     html: `
       <!DOCTYPE html>
       <html>
       <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Reset Your MovieGPT Password</title>
+          <title>Reset Your StreamMe Password</title>
           <style>
               body {
                   margin: 0;
@@ -127,7 +127,7 @@ export const sendCustomPasswordResetEmail = async (email, resetLink) => {
               <div class="card">
                   <h1 class="title">Reset Your Password</h1>
                   <p class="subtitle">
-                      We received a request to reset your MovieGPT account password. 
+                      We received a request to reset your StreamMe account password. 
                       Click the button below to create a new password and get back to discovering amazing movies!
                   </p>
                   

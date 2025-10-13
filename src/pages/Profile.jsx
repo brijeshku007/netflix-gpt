@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   updateProfile,
   updatePassword,
-  
+
   deleteUser,
   reauthenticateWithCredential,
   EmailAuthProvider,
@@ -246,7 +246,7 @@ const Profile = () => {
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
           {/* Header Section */}
           <motion.div className="text-center mb-12" variants={itemVariants}>
-            <h1 className="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               Profile Settings
             </h1>
             <p className="text-xl text-gray-300">

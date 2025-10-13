@@ -289,7 +289,7 @@ const MovieDetails = () => {
               >
                 <div>
                   <motion.h1
-                    className="text-4xl md:text-7xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+                    className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
@@ -387,11 +387,10 @@ const MovieDetails = () => {
 
                     <motion.button
                       onClick={handleWatchlistToggle}
-                      className={`flex items-center space-x-3 px-8 py-4 rounded-xl font-bold text-lg backdrop-blur-sm border transition-all duration-300 ${
-                        isInWatchlist
-                          ? "bg-green-600/80 hover:bg-green-700/80 border-green-500 text-white"
-                          : "bg-gray-800/80 hover:bg-gray-700/80 border-gray-600 text-white"
-                      }`}
+                      className={`flex items-center space-x-3 px-8 py-4 rounded-xl font-bold text-lg backdrop-blur-sm border transition-all duration-300 ${isInWatchlist
+                        ? "bg-green-600/80 hover:bg-green-700/80 border-green-500 text-white"
+                        : "bg-gray-800/80 hover:bg-gray-700/80 border-gray-600 text-white"
+                        }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -485,11 +484,10 @@ const MovieDetails = () => {
               <motion.button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-4 px-2 font-semibold text-lg capitalize whitespace-nowrap border-b-2 transition-all duration-300 ${
-                  activeTab === tab
-                    ? "border-red-500 text-white"
-                    : "border-transparent text-gray-400 hover:text-white"
-                }`}
+                className={`py-4 px-2 font-semibold text-lg capitalize whitespace-nowrap border-b-2 transition-all duration-300 ${activeTab === tab
+                  ? "border-red-500 text-white"
+                  : "border-transparent text-gray-400 hover:text-white"
+                  }`}
                 whileHover={{ y: -2 }}
               >
                 {tab}
@@ -512,7 +510,7 @@ const MovieDetails = () => {
           <div className="max-w-7xl mx-auto">
             {activeTab === "cast" && cast.length > 0 && (
               <div>
-                <h2 className="text-4xl font-bold mb-12 text-center">Cast</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-12 text-center">Cast</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
                   {cast.map((actor, index) => (
                     <motion.div
@@ -554,7 +552,7 @@ const MovieDetails = () => {
 
             {activeTab === "crew" && crew.length > 0 && (
               <div>
-                <h2 className="text-4xl font-bold mb-12 text-center">Crew</h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-12 text-center">Crew</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {crew.map((person, index) => (
                     <motion.div
@@ -575,7 +573,7 @@ const MovieDetails = () => {
 
             {activeTab === "details" && movieDetails && (
               <div>
-                <h2 className="text-4xl font-bold mb-12 text-center">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-12 text-center">
                   Movie Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -631,7 +629,7 @@ const MovieDetails = () => {
 
             {activeTab === "overview" && (
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-4xl font-bold mb-8 text-center">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 text-center">
                   Overview
                 </h2>
                 <motion.div

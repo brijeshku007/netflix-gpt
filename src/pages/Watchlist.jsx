@@ -72,7 +72,7 @@ const Watchlist = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
           {/* Header Section */}
           <motion.div className="text-center mb-12" variants={itemVariants}>
-            <h1 className="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-4 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
               My Watchlist
             </h1>
             <p className="text-xl text-gray-300 mb-6">

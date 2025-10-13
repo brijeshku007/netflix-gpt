@@ -1,4 +1,4 @@
-import  { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { LANGUAGE_CONSTANTS } from "../../constants";
@@ -10,18 +10,30 @@ import { MdSmartToy, MdMovie, MdTrendingUp } from "react-icons/md";
 const GPTSearchBar = ({ compact = false }) => {
   const dispatch = useDispatch();
   const langkey = useSelector((store) => store.config.lang);
-  const { movieName } = useSelector((store) => store.gpt);
+  const { movieName, searchTerm } = useSelector((store) => store.gpt);
   const searchText = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchHistory, setSearchHistory] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
+  // Sync search value with Redux store on mount
+  useEffect(() => {
+    if (searchTerm) {
+      setSearchValue(searchTerm);
+      if (searchText.current) {
+        searchText.current.value = searchTerm;
+      }
+    }
+  }, [searchTerm]);
+
   // Search for movies in TMDB database
   const fetchMOviesTMDB = async (movie) => {
     try {
       const data = await fetch(
         "https://api.themoviedb.org/3/search/movie?query=" +
-          encodeURIComponent(movie.trim()) +
-          "&include_adult=false&language=en-US&page=1",
+        encodeURIComponent(movie.trim()) +
+        "&include_adult=false&language=en-US&page=1",
         API_OPTIONS
       );
 
@@ -44,6 +56,7 @@ const GPTSearchBar = ({ compact = false }) => {
 
     setIsLoading(true);
     const query = searchText.current.value.trim();
+    setSearchValue(query);
 
     try {
       // Add to search history
@@ -81,7 +94,7 @@ const GPTSearchBar = ({ compact = false }) => {
         const tmdbResult = await Promise.all(promiseArray);
 
         dispatch(
-          addGptMoviesResult({ movieName: getMovies, movieResult: tmdbResult })
+          addGptMoviesResult({ movieName: getMovies, movieResult: tmdbResult, searchTerm: query })
         );
       } catch (aiError) {
         console.warn(
@@ -95,6 +108,7 @@ const GPTSearchBar = ({ compact = false }) => {
           addGptMoviesResult({
             movieName: [query],
             movieResult: [tmdbResult],
+            searchTerm: query,
           })
         );
 
@@ -124,13 +138,19 @@ const GPTSearchBar = ({ compact = false }) => {
 
   const handleSuggestionClick = (suggestion) => {
     searchText.current.value = suggestion;
+    setSearchValue(suggestion);
     setShowSuggestions(false);
     handlegptSearchClick();
   };
 
   const handleClearSearch = () => {
     searchText.current.value = "";
+    setSearchValue("");
     dispatch(clearGptMoviesResult());
+  };
+
+  const handleInputChange = (e) => {
+    setSearchValue(e.target.value);
   };
 
   const popularSearches = [
@@ -185,6 +205,8 @@ const GPTSearchBar = ({ compact = false }) => {
                   <input
                     ref={searchText}
                     type="text"
+                    value={searchValue}
+                    onChange={handleInputChange}
                     placeholder={
                       LANGUAGE_CONSTANTS[langkey].gptSearchPlaceholder
                     }
@@ -192,7 +214,7 @@ const GPTSearchBar = ({ compact = false }) => {
                   />
 
                   {/* Clear Button */}
-                  {movieName && movieName.length > 0 && (
+                  {searchValue && (
                     <motion.button
                       type="button"
                       onClick={handleClearSearch}
@@ -291,10 +313,10 @@ const GPTSearchBar = ({ compact = false }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           AI Movie Search
         </h1>
-        <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg md:text-xl lg:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
           Discover your next favorite movie with the power of artificial
           intelligence
         </p>
@@ -340,6 +362,8 @@ const GPTSearchBar = ({ compact = false }) => {
                   <input
                     ref={searchText}
                     type="text"
+                    value={searchValue}
+                    onChange={handleInputChange}
                     placeholder={
                       LANGUAGE_CONSTANTS[langkey].gptSearchPlaceholder
                     }
@@ -349,6 +373,17 @@ const GPTSearchBar = ({ compact = false }) => {
                       setTimeout(() => setShowSuggestions(false), 200)
                     }
                   />
+                  {searchValue && (
+                    <button
+                      type="button"
+                      onClick={handleClearSearch}
+                      className="p-1 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
 
                 {/* Search Button - Mobile */}
@@ -426,19 +461,34 @@ const GPTSearchBar = ({ compact = false }) => {
                 <input
                   ref={searchText}
                   type="text"
+                  value={searchValue}
+                  onChange={handleInputChange}
                   placeholder={LANGUAGE_CONSTANTS[langkey].gptSearchPlaceholder}
-                  className="flex-1 bg-transparent text-white text-lg placeholder-gray-400 focus:outline-none py-4 pr-4"
+                  className="flex-1 bg-transparent text-white text-lg placeholder-gray-400 focus:outline-none py-3 lg:py-3 xl:py-3 pr-4"
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() =>
                     setTimeout(() => setShowSuggestions(false), 200)
                   }
                 />
 
+                {/* Clear Button */}
+                {searchValue && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    className="p-2 text-gray-400 hover:text-white transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+
                 {/* Search Button */}
                 <motion.button
                   type="submit"
                   disabled={isLoading}
-                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center space-x-2 shadow-lg"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold py-3 lg:py-3 xl:py-3 px-6 lg:px-6 xl:px-6 rounded-xl transition-all duration-300 flex items-center space-x-2 shadow-lg"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

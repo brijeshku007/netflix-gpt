@@ -1,4 +1,4 @@
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { MovieCard } from "../movies";
 import { MdMovie } from "react-icons/md";
@@ -51,7 +51,7 @@ const GPTSuggestion = () => {
     >
       {/* Compact Header Section */}
       <motion.div className="text-center py-8 px-4" variants={sectionVariants}>
-        <h2 className="text-3xl md:text-4xl font-black mb-2 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-black mb-2 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
           Search Results
         </h2>
         <p className="text-lg text-gray-300">
