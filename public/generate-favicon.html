@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StreamMe Favicon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        canvas { border: 2px solid #ccc; margin: 10px; }
+        button { padding: 10px 20px; margin: 5px; background: #ff4757; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #c44569; }
+        .info { background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>StreamMe Favicon Generator</h1>
+    <div class="info">
+        <strong>Instructions:</strong>
+        <ol>
+            <li>The favicon will be generated automatically below</li>
+            <li>Click "Download PNG" to get a PNG version</li>
+            <li>Use an online converter to create favicon.ico from the PNG</li>
+            <li>Place the favicon.ico in your public folder</li>
+        </ol>
+    </div>
+    
+    <h3>16x16 Favicon:</h3>
+    <canvas id="canvas16" width="16" height="16"></canvas>
+    <button onclick="downloadFavicon(16)">Download 16x16 PNG</button>
+    
+    <h3>32x32 Favicon:</h3>
+    <canvas id="canvas32" width="32" height="32"></canvas>
+    <button onclick="downloadFavicon(32)">Download 32x32 PNG</button>
+    
+    <script>
+        function drawFavicon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            const center = size / 2;
+            const playRadius = size * 0.3;
+            
+            // Create gradient background
+            const bgGradient = ctx.createRadialGradient(center, center, 0, center, center, center);
+            bgGradient.addColorStop(0, '#2c2c54');
+            bgGradient.addColorStop(1, '#1a1a2e');
+            
+            // Fill background circle
+            ctx.fillStyle = bgGradient;
+            ctx.beginPath();
+            ctx.arc(center, center, center, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Create play button gradient
+            const playGradient = ctx.createLinearGradient(0, 0, size, size);
+            playGradient.addColorStop(0, '#ff4757');
+            playGradient.addColorStop(1, '#c44569');
+            
+            // Draw play button circle
+            ctx.fillStyle = playGradient;
+            ctx.beginPath();
+            ctx.arc(center, center, playRadius, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Draw play triangle
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            const triangleSize = playRadius * 0.6;
+            ctx.moveTo(center - triangleSize * 0.3, center - triangleSize * 0.5);
+            ctx.lineTo(center - triangleSize * 0.3, center + triangleSize * 0.5);
+            ctx.lineTo(center + triangleSize * 0.7, center);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Generate favicons
+        drawFavicon(document.getElementById('canvas16'), 16);
+        drawFavicon(document.getElementById('canvas32'), 32);
+        
+        function downloadFavicon(size) {
+            const canvas = document.getElementById('canvas' + size);
+            const link = document.createElement('a');
+            link.download = `favicon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
