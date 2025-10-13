@@ -1,7 +1,8 @@
 # Netflix GPT - AI-Powered Movie Streaming Platform
 
 A modern, responsive movie streaming platform built with React, featuring AI-powered movie recommendations using Google's Gemini API and real-time movie data from TMDB.
-
+# Deployed Link
+https://streammefast.netlify.app/
 ## 🚀 Features
 
 ### Core Features
