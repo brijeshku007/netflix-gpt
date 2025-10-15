@@ -17,7 +17,6 @@ import {
   MdPerson,
   MdVisibility,
   MdVisibilityOff,
-  MdMovie,
 } from "react-icons/md";
 
 const Login = () => {
@@ -225,11 +224,12 @@ const Login = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="relative">
+                    <MdPerson className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       ref={name}
                       type="text"
                       placeholder="Full Name"
-                      className="w-full px-4 py-4 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-gray-800/70 transition-all duration-300"
+                      className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-gray-800/70 transition-all duration-300"
                       aria-label="Full Name"
                       required={!isSignIn}
                     />

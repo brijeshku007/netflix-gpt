@@ -7,7 +7,6 @@ import { Toast } from "../components/ui";
 import {
   MdEmail,
   MdArrowBack,
-  MdMovie,
   MdSend,
   MdCheckCircle,
 } from "react-icons/md";
