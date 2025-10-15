@@ -40,7 +40,7 @@ const SearchMovie = () => {
         </div>
 
         {/* Content */}
-        <div className="relative z-10">
+        <div className="relative z-10 px-2 md:px-0">
           {/* Always show search bar */}
           <div className={movieName && movieName.length > 0 ? "pb-4" : ""}>
             <GPTSearchBar />

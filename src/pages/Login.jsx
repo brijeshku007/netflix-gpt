@@ -188,7 +188,6 @@ const Login = () => {
         {/* Logo/Brand Section */}
         <motion.div className="text-center mb-8" variants={itemVariants}>
           <div className="flex items-center justify-center mb-4">
-            <MdMovie className="w-12 h-12 text-red-500 mr-3" />
             <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
               StreamMe
             </h1>
@@ -226,12 +225,11 @@ const Login = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="relative">
-                    <MdPerson className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <input
                       ref={name}
                       type="text"
                       placeholder="Full Name"
-                      className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-gray-800/70 transition-all duration-300"
+                      className="w-full px-4 py-4 bg-gray-800/50 border border-gray-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 focus:bg-gray-800/70 transition-all duration-300"
                       aria-label="Full Name"
                       required={!isSignIn}
                     />

@@ -2,14 +2,16 @@
 export const DEFAULT_AVATAR =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYaO6lWOo30L2AqIVF76Mx8WS-8OrnlUJw7w&s";
 
+// Validate TMDB API key
+if (!process.env.REACT_APP_TMDB_KEY && process.env.NODE_ENV === 'production') {
+  console.error('❌ REACT_APP_TMDB_KEY environment variable is required for production');
+}
+
 export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization: `Bearer ${
-      process.env.REACT_APP_TMDB_KEY ||
-      "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTc4MmUzZTQ4NTI1MjAyMTA0NzM2NzU1YzRmOTQ2ZSIsIm5iZiI6MTczMDQ0MjI2MS4zMzUyNzgsInN1YiI6IjY3MjQ3MjExMGRmNGU2NmQ0ZDkyNDc1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Tl9z3URfdmqRtU8h47Fy5wSarJvhNVBPoYFkFnIBL0A"
-    }`,
+    Authorization: `Bearer ${process.env.REACT_APP_TMDB_KEY}`,
   },
 };
 
@@ -33,6 +35,4 @@ export const SUPPORTED_MOVIES = [
   { identifier: "mr", name: "Marathi" },
 ];
 
-export const GEMINI_API_KEY =
-  process.env.REACT_APP_GEMINI_API_KEY ||
-  "AIzaSyD-dZyj0G3gvnsndMSu82vkVXaArGK2NgU";
+export const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY;

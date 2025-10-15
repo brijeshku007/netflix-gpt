@@ -1,6 +1,11 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_API_KEY } from "../constants";
 
+// Validate API key before initializing
+if (!GEMINI_API_KEY && process.env.NODE_ENV === 'production') {
+  throw new Error('REACT_APP_GEMINI_API_KEY environment variable is required');
+}
+
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 // Function to try different models
@@ -21,7 +26,9 @@ export const generateContentWithFallback = async (prompt) => {
       // console.log(`✅ SUCCESS with model: ${modelName}`);
       return result;
     } catch (error) {
-      console.warn(`❌ Model ${modelName} failed:`, error.message);
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`❌ Model ${modelName} failed:`, error.message);
+      }
       continue;
     }
   }

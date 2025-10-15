@@ -24,7 +24,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "verify-build": "node verify-build.js",
-    "build:verify": "npm run build && npm run verify-build"
+    "build:verify": "npm run build && npm run verify-build",
+    "check-env": "node check-env.js"
   },
   "eslintConfig": {
     "extends": [

@@ -28,7 +28,9 @@ export const loadWatchlistFromFirestore = async (userId) => {
       return [];
     }
   } catch (error) {
-    console.error("Error loading watchlist from Firestore:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error loading watchlist from Firestore:", error);
+    }
     // Fallback to localStorage
     const localKey = `watchlist_${userId}`;
     return JSON.parse(localStorage.getItem(localKey)) || [];
@@ -52,7 +54,9 @@ export const saveWatchlistToFirestore = async (userId, movies) => {
     const localKey = `watchlist_${userId}`;
     localStorage.setItem(localKey, JSON.stringify(movies));
   } catch (error) {
-    console.error("Error saving watchlist to Firestore:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error saving watchlist to Firestore:", error);
+    }
     // Fallback to localStorage only
     const localKey = `watchlist_${userId}`;
     localStorage.setItem(localKey, JSON.stringify(movies));
@@ -68,7 +72,9 @@ export const addMovieToFirestore = async (userId, movie) => {
       updatedAt: new Date(),
     });
   } catch (error) {
-    console.error("Error adding movie to Firestore:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error adding movie to Firestore:", error);
+    }
     throw error; // Let the calling function handle fallback
   }
 };
@@ -82,7 +88,9 @@ export const removeMovieFromFirestore = async (userId, movie) => {
       updatedAt: new Date(),
     });
   } catch (error) {
-    console.error("Error removing movie from Firestore:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error removing movie from Firestore:", error);
+    }
     throw error; // Let the calling function handle fallback
   }
 };
@@ -100,7 +108,9 @@ export const clearWatchlistInFirestore = async (userId) => {
       { merge: true }
     );
   } catch (error) {
-    console.error("Error clearing watchlist in Firestore:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error clearing watchlist in Firestore:", error);
+    }
     throw error;
   }
 };
@@ -120,7 +130,9 @@ export const subscribeToWatchlist = (userId, callback) => {
       }
     },
     (error) => {
-      console.error("Error in watchlist subscription:", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Error in watchlist subscription:", error);
+      }
       // Fallback to localStorage
       const localKey = `watchlist_${userId}`;
       const localData = JSON.parse(localStorage.getItem(localKey)) || [];

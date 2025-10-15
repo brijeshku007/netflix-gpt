@@ -6,6 +6,7 @@ import { generateContentWithFallback } from "../../services";
 import { API_OPTIONS } from "../../constants";
 import { addGptMoviesResult, clearGptMoviesResult } from "../../store/gptSlice";
 import { MdSmartToy, MdMovie, MdTrendingUp } from "react-icons/md";
+import { checkTMDBHealth } from "../../utils/apiHealth";
 
 const GPTSearchBar = ({ compact = false }) => {
   const dispatch = useDispatch();
@@ -30,21 +31,36 @@ const GPTSearchBar = ({ compact = false }) => {
   // Search for movies in TMDB database
   const fetchMOviesTMDB = async (movie) => {
     try {
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const data = await fetch(
         "https://api.themoviedb.org/3/search/movie?query=" +
         encodeURIComponent(movie.trim()) +
         "&include_adult=false&language=en-US&page=1",
-        API_OPTIONS
+        {
+          ...API_OPTIONS,
+          signal: controller.signal
+        }
       );
 
+      clearTimeout(timeoutId);
+
       if (!data.ok) {
-        throw new Error(`TMDB API error: ${data.status}`);
+        throw new Error(`TMDB API error: ${data.status} - ${data.statusText}`);
       }
 
       const json = await data.json();
       return json.results || [];
     } catch (error) {
-      console.error(`Error fetching movie "${movie}":`, error);
+      if (process.env.NODE_ENV === 'development') {
+        if (error.name === 'AbortError') {
+          console.error(`Request timeout for movie "${movie}"`);
+        } else {
+          console.error(`Error fetching movie "${movie}":`, error);
+        }
+      }
       return [];
     }
   };
@@ -89,48 +105,81 @@ const GPTSearchBar = ({ compact = false }) => {
           throw new Error("No movies found in AI response");
         }
 
-        // Search for each movie in TMDB
-        const promiseArray = getMovies.map((movie) => fetchMOviesTMDB(movie));
-        const tmdbResult = await Promise.all(promiseArray);
+        // Search for each movie in TMDB with staggered requests to avoid rate limiting
+        const tmdbResult = [];
+        for (let i = 0; i < getMovies.length; i++) {
+          const result = await fetchMOviesTMDB(getMovies[i]);
+          tmdbResult.push(result);
+          // Add small delay between requests to avoid overwhelming the API
+          if (i < getMovies.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 200));
+          }
+        }
 
         dispatch(
           addGptMoviesResult({ movieName: getMovies, movieResult: tmdbResult, searchTerm: query })
         );
       } catch (aiError) {
-        console.warn(
-          "AI search failed, falling back to direct search:",
-          aiError
-        );
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(
+            "AI search failed, falling back to direct search:",
+            aiError
+          );
+        }
 
-        // Fallback: Direct TMDB search
-        const tmdbResult = await fetchMOviesTMDB(query);
-        dispatch(
-          addGptMoviesResult({
-            movieName: [query],
-            movieResult: [tmdbResult],
-            searchTerm: query,
-          })
-        );
+        try {
+          // Check API health before fallback
+          const healthCheck = await checkTMDBHealth();
+          if (healthCheck.status !== 'healthy') {
+            throw new Error(`API connectivity issue: ${healthCheck.message}`);
+          }
 
-        // Show info message
-        alert("AI search unavailable. Showing direct search results instead.");
+          // Fallback: Direct TMDB search
+          const tmdbResult = await fetchMOviesTMDB(query);
+
+          if (tmdbResult.length === 0) {
+            throw new Error("No movies found for your search");
+          }
+
+          dispatch(
+            addGptMoviesResult({
+              movieName: [query],
+              movieResult: [tmdbResult],
+              searchTerm: query,
+            })
+          );
+
+          // AI search unavailable, using direct search fallback
+        } catch (fallbackError) {
+          throw fallbackError; // Re-throw to be caught by outer catch
+        }
       }
     } catch (error) {
-      console.error("Error in AI search:", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Error in search:", error);
+      }
 
       // Show user-friendly error messages
       let errorMessage = "Something went wrong. Please try again.";
 
-      if (error.message.includes("API key")) {
-        errorMessage = "API key issue. Please check your Gemini API key.";
+      if (error.message.includes("timeout") || error.message.includes("Failed to fetch")) {
+        errorMessage = "Connection timeout. Please check your internet connection and try again.";
+      } else if (error.message.includes("API key")) {
+        errorMessage = "API configuration issue. Please contact support.";
       } else if (error.message.includes("404")) {
-        errorMessage =
-          "AI service temporarily unavailable. Please try again later.";
+        errorMessage = "Service temporarily unavailable. Please try again later.";
       } else if (error.message.includes("quota")) {
-        errorMessage = "API quota exceeded. Please try again later.";
+        errorMessage = "Service limit reached. Please try again later.";
+      } else if (error.message.includes("API connectivity")) {
+        errorMessage = "Unable to connect to movie database. Please try again later.";
+      } else if (error.message.includes("No movies found")) {
+        errorMessage = "No movies found for your search. Try different keywords.";
       }
 
-      alert(errorMessage); // You can replace this with a proper toast notification
+      // Log error for debugging (only in development)
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Search failed:", errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -182,8 +231,103 @@ const GPTSearchBar = ({ compact = false }) => {
           >
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-              <div className="relative bg-gray-900/90 backdrop-blur-xl rounded-xl p-2 border border-gray-700">
-                <div className="flex items-center space-x-4">
+              <div className="relative bg-gray-900/90 backdrop-blur-xl rounded-xl p-3 md:p-2 border border-gray-700">
+                {/* Mobile Layout */}
+                <div className="block md:hidden space-y-4">
+                  {/* Input Field - Mobile */}
+                  <div className="flex items-center space-x-3">
+                    <div className="pl-2">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      ref={searchText}
+                      type="text"
+                      value={searchValue}
+                      onChange={handleInputChange}
+                      placeholder={
+                        LANGUAGE_CONSTANTS[langkey].gptSearchPlaceholder
+                      }
+                      className="flex-1 bg-transparent text-white text-base placeholder-gray-400 focus:outline-none py-3"
+                    />
+                    {searchValue && (
+                      <button
+                        type="button"
+                        onClick={handleClearSearch}
+                        className="p-1 text-gray-400 hover:text-white transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Search Button - Mobile */}
+                  <motion.button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <svg
+                          className="animate-spin w-5 h-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span>Searching...</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                          />
+                        </svg>
+                        <span>{LANGUAGE_CONSTANTS[langkey].search}</span>
+                      </>
+                    )}
+                  </motion.button>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:flex items-center space-x-4">
                   {/* Search Icon */}
                   <div className="pl-4">
                     <svg

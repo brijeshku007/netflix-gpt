@@ -8,24 +8,38 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
+// Validate required Firebase environment variables
+const requiredFirebaseVars = [
+  'REACT_APP_FIREBASE_API_KEY',
+  'REACT_APP_FIREBASE_AUTH_DOMAIN',
+  'REACT_APP_FIREBASE_PROJECT_ID',
+  'REACT_APP_FIREBASE_STORAGE_BUCKET',
+  'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
+  'REACT_APP_FIREBASE_APP_ID'
+];
+
+const missingVars = requiredFirebaseVars.filter(varName => !process.env[varName]);
+if (missingVars.length > 0) {
+  const errorMessage = `Missing Firebase environment variables: ${missingVars.join(', ')}`;
+  
+  if (process.env.NODE_ENV === 'development') {
+    console.error(`❌ ${errorMessage}`);
+    console.error('💡 Make sure your .env file is in the project root and restart the server');
+  } else {
+    throw new Error(errorMessage);
+  }
+}
+
 const firebaseConfig = {
-  apiKey:
-    process.env.REACT_APP_FIREBASE_API_KEY ||
-    "AIzaSyDd6oMmPnj4Aei3EQDJMUNIDPvswVKUOT0",
-  authDomain:
-    process.env.REACT_APP_FIREBASE_AUTH_DOMAIN ||
-    "netflixgpt-d6a76.firebaseapp.com",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "netflixgpt-d6a76",
-  storageBucket:
-    process.env.REACT_APP_FIREBASE_STORAGE_BUCKET ||
-    "netflixgpt-d6a76.appspot.com",
-  messagingSenderId:
-    process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "655443859635",
-  appId:
-    process.env.REACT_APP_FIREBASE_APP_ID ||
-    "1:655443859635:web:2b9c68c51efb0dd40938c6",
-  measurementId:
-    process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "G-GPE8G5QJ27",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Debug: Check if environment variables are loaded
